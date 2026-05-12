@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Undangan Pernikahan - Arlians & Rolina</title>
+    <!-- Fonts Premium -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Playfair+Display:ital,wght@0,400;1,400&family=Pinyon+Script&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    
+    <style>
+        :root {
+            --dark-purple: #3b1432;
+            --gold: #d4af37;
+            --soft-gold: #f4e4bc;
+            --white: #ffffff;
+            --transition-slow: all 1.8s cubic-bezier(0.2, 1, 0.3, 1);
+        }
+
+        body, html {
+            margin: 0; padding: 0;
+            font-family: 'Montserrat', sans-serif;
+            background-color: #1a0a16;
+            color: var(--white);
+            overflow-x: hidden;
+        }
+
+        /* --- STAGE 0: AMPLOP (ENVELOPE) --- */
+        #envelope {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--dark-purple);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: transform 1.5s ease-in-out;
+            text-align: center;
+        }
+        .envelope-opened { transform: translateY(-100%); }
+
+        /* --- ANIMASI REVEAL SAAT SCROLL --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: var(--transition-slow);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- LAYOUT UTAMA --- */
+        .mobile-container {
+            max-width: 450px;
+            margin: 0 auto;
+            background: var(--dark-purple);
+            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+        }
+
+        section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px 25px;
+            text-align: center;
+            box-sizing: border-box;
+            position: relative;
+        }
+
+        .script-elegant { font-family: 'Pinyon Script', cursive; font-size: 4rem; color: var(--gold); margin: 10px 0; }
+        .title-elegant { font-family: 'Cinzel Decorative', cursive; font-size: 1.8rem; color: var(--soft-gold); letter-spacing: 2px; }
+        .serif-text { font-family: 'Playfair Display', serif; font-style: italic; line-height: 1.8; }
+
+        .oval-frame {
+            width: 220px;
+            height: 310px;
+            border: 2px solid var(--gold);
+            border-radius: 120px;
+            overflow: hidden;
+            margin: 20px auto; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+        }
+        .oval-frame img { width: 100%; height: 100%; object-fit: cover; }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 30px 20px;
+            border-radius: 20px;
+            width: 90%;
+        }
+
+        .btn-gold {
+            background: linear-gradient(45deg, #d4af37, #f4e4bc);
+            color: #3b1432;
+            padding: 15px 35px;
+            border-radius: 50px;
+            border: none;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+            transition: 0.3s;
+            margin-top: 20px;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        input, select, textarea {
+            width: 100%; padding: 12px; margin: 8px 0;
+            border-radius: 10px; border: none;
+            background: rgba(255, 255, 255, 0.9);
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        /* Tombol Floating Musik */
+        .music-control {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: var(--gold);
+            color: var(--dark-purple);
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: none; 
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(0,0,0,0.5);
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Elemen Musik -->
+    <audio id="myAudio" loop>
+        <source src="Yovie & Nuno - Janji Suci.mp3" alt="mp3">
+    </audio>
+
+    <!-- Tombol Musik Floating -->
+    <div id="musicBtn" class="music-control" onclick="toggleMusic()">
+        🎵
+    </div>
+
+    <!-- Slide 0: Amplop Pembuka -->
+    <div id="envelope">
+        <div class="animate__animated animate__fadeIn">
+            <h2 class="title-elegant" style="font-size: 1rem;">UNDANGAN PERNIKAHAN</h2>
+            <h1 class="script-elegant">Arlians & Rolina</h1>
+            <p style="margin-top: 20px; font-size: 0.8rem; opacity: 0.7;">Kepada Yth:</p>
+            <h2 class="title-elegant" style="font-size: 1.3rem;">Tamu Undangan</h2>
+            <button class="btn-gold" onclick="openInvitation()">Buka Undangan</button>
+        </div>
+    </div>
+
+    <div class="mobile-container">
+        
+        <!-- Slide 1: Cover -->
+        <section>
+            <div class="reveal">
+                <p style="letter-spacing: 5px;">THE WEDDING OF</p>
+                <h1 class="title-elegant" style="font-size: 2.2rem;">Arlians & Rolina</h1>
+                <div class="oval-frame" style="width: 250px; height: 350px;">
+                    <img src="berdua.jpeg" alt="Pre-wedding">
+                </div>
+                <p class="serif-text">Rabu, 29 April 2026</p>
+            </div>
+        </section>
+
+        <!-- Slide 2: Ayat -->
+        <section>
+            <div class="glass-card reveal">
+                <h2 class="script-elegant" style="font-size: 2.5rem;">A & R</h2>
+                <p class="serif-text" style="font-size: 1.1rem;">
+                    "Demikianlah mereka bukan lagi dua, melainkan satu. Karena itu, apa yang telah dipersatukan Allah, tidak boleh diceraikan manusia."
+                </p>
+                <p style="color: var(--gold); font-weight: bold;">( Matius 19:6 )</p>
+            </div>
+        </section>
+
+        <!-- Slide 3 & 4: Mempelai -->
+        <section>
+            <div class="reveal" style="margin-bottom: 50px;">
+                <h2 class="title-elegant" style="font-size: 1.5rem;">Mempelai Wanita</h2>
+                <div class="oval-frame">
+                    <img src="lina.jpeg" alt="Lina">
+                </div>
+                <h1 class="script-elegant">Rolina Loiulro</h1>
+                <p class="serif-text">Putri dari Bapak Levinus L. Loiulro & <br> Ibu Yeny Natalia Kaimudin</p>
+            </div>
+
+            <div class="reveal"><h2 class="script-elegant" style="font-size: 3rem;">&</h2></div>
+
+            <div class="reveal">
+                <h2 class="title-elegant" style="font-size: 1.5rem;">Mempelai Pria</h2>
+                <div class="oval-frame">
+                    <img src="helpy.jpeg" alt="Arlians">
+                </div>
+                <h1 class="script-elegant">Arlians Latumahina</h1>
+                <p class="serif-text">Putra dari Bapak Alm. Martinus Latumahina & <br> Ibu Yohana Lawahery</p>
+            </div>
+        </section>
+
+        <!-- Slide 6: Jadwal -->
+        <section>
+            <div class="reveal" style="border: 2px solid var(--gold); padding: 40px; border-radius: 150px 150px 20px 20px;">
+                <h2 class="title-elegant">SAVE THE DATE</h2>
+                <div style="font-size: 4.5rem; color: var(--gold); font-weight: bold;">29</div>
+                <p class="serif-text" style="font-size: 1.5rem;">APRIL 2026</p>
+                <hr style="width: 50px; border: 1px solid var(--gold);">
+                <p>Resepsi: 14:00 WIT - Selesai</p>
+            </div>
+        </section>
+
+        <!-- Slide 7: Lokasi -->
+        <section>
+            <div class="glass-card reveal">
+                <h2 class="title-elegant">LOKASI ACARA</h2>
+                <p class="serif-text">Kediaman Mempelai Pria<br>Desa Makariki, Kec. Amahai,<br>Maluku Tengah</p>
+                <a href="https://maps.google.com" target="_blank" class="btn-gold">Buka Google Maps</a>
+            </div>
+        </section>
+
+        <!-- Slide 9: RSVP -->
+        <section>
+            <div class="reveal" style="width: 100%;">
+                <h2 class="title-elegant">KONFIRMASI RSVP</h2>
+                <div class="glass-card" style="margin: 20px auto;">
+                    <form>
+                        <input type="text" placeholder="Nama Lengkap" required>
+                        <select required>
+                            <option value="">Status Kehadiran</option>
+                            <option value="hadir">Hadir</option>
+                            <option value="tidak">Tidak Hadir</option>
+                        </select>
+                        <textarea placeholder="Ucapan & Doa Restu" rows="4"></textarea>
+                        <button type="submit" class="btn-gold">Kirim RSVP</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 10: Penutup -->
+        <section>
+            <div class="reveal">
+                <p class="serif-text">Merupakan suatu kehormatan bagi kami atas kehadiran Anda.</p>
+                <h1 class="script-elegant">Terima Kasih</h1>
+                <p style="margin-top: 30px;">Kami yang berbahagia,</p>
+                <h2 class="title-elegant">Keluarga Besar<br>Latumahina & Loiulro</h2>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        const audio = document.getElementById("myAudio");
+        const musicBtn = document.getElementById("musicBtn");
+
+        // Fungsi Buka Undangan + Putar Musik
+        function openInvitation() {
+            // Putar musik (Browser mengizinkan audio setelah interaksi klik)
+            audio.play().catch(error => console.log("Gagal memutar audio:", error));
+            
+            // Tampilkan tombol kontrol
+            musicBtn.style.display = "flex";
+
+            // Animasi Amplop
+            document.getElementById('envelope').classList.add('envelope-opened');
+            document.body.style.overflowY = "auto";
+        }
+
+        function toggleMusic() {
+            if (audio.paused) {
+                audio.play();
+                musicBtn.innerHTML = "🎵";
+            } else {
+                audio.pause();
+                musicBtn.innerHTML = "🔇";
+            }
+        }
+
+        // Kunci scroll di awal
+        document.body.style.overflowY = "hidden";
+
+        // Observer untuk Animasi Scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.15 });
+
+        document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+    </script>
+
+</body>
+</html>
